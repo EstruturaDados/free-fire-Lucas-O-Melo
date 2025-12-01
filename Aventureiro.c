@@ -27,7 +27,6 @@ void listarItens(struct Item mochila[], int total) {
                mochila[i].nome,
                mochila[i].tipo,
                mochila[i].quantidade);
-
     }
 }
 
@@ -39,12 +38,13 @@ int main() {
 
     do {
         printf("\n================================\n");
-        printf("   MOCHILA DE SOBREVIVENCIA   \n");
+        printf("    MOCHILA DE SOBREVIVENCIA   \n");
         printf("================================\n");
         printf("Itens na mochila: %d/%d itens\n\n", total, MAX_ITENS);
         printf("1 - Adicionar item (Loot)\n");
         printf("2 - Remover item\n");
         printf("3 - Listar itens\n");
+        printf("4 - Buscar item por nome\n");   // <-- NOVA OPÇÃO
         printf("0 - Sair\n");
         printf("--------------------------------\n");
         printf("Escolha uma opcao: ");
@@ -73,12 +73,9 @@ int main() {
 
             // MOSTRAR LISTA
             listarItens(mochila, total);  
+            printf("-----------------------------------------\n");     
             
-            printf("-----------------------------------------\n");    
-
-            // PAUSA APÓS ADICIONAR
             pausar();
-
             break;
         }
 
@@ -108,9 +105,7 @@ int main() {
                     printf("\nItem removido com sucesso!\n");
 
                     listarItens(mochila, total);
-                    
                     pausar();
-
                     break;
                 }
             }
@@ -128,6 +123,42 @@ int main() {
                 listarItens(mochila, total);
             }
             break;
+
+        // --------------- NOVO CASE: BUSCA SEQUENCIAL ------------------
+        case 4: {
+            if (total == 0) {
+                printf("\nA mochila está vazia.\n");
+                break;
+            }
+
+            char nomeBuscar[30];
+            int achou = 0;
+
+            printf("\n--- Buscar Item na Mochila ---\n");
+            printf("Digite o nome do item: ");
+            scanf("%s", nomeBuscar);
+
+            for (int i = 0; i < total; i++) {
+                if (strcmp(mochila[i].nome, nomeBuscar) == 0) {
+                    achou = 1;
+
+                    printf("\n--- Item encontrado! ---\n");
+                    printf("Nome: %s\n", mochila[i].nome);
+                    printf("Tipo: %s\n", mochila[i].tipo);
+                    printf("Quantidade: %d\n", mochila[i].quantidade);
+
+                    break;
+                }
+            }
+
+            if (!achou) {
+                printf("\nItem não encontrado na mochila.\n");
+            }
+
+            pausar();
+            break;
+        }
+        // --------------------------------------------------------------
 
         case 0:
             printf("\nEncerrando o programa...\n");
